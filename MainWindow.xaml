@@ -5,8 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageTransformation"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Image Transformation" Height="450" Width="800">
 
+
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="550"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Vertical">
+            <Expander>
+                <ScrollViewer>
+                    <StackPanel>
+                        <!--Name="RadioButtonList"-->
+                        <!--ItemsSource="{Binding myCollection}"-->
+
+                        <ListBox x:Name="RadioButtonList" Height="50">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <!--<TextBlock Text="{Binding}"/>-->
+                                    <RadioButton GroupName="radioList" Tag="{Binding}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </Expander>
+            <Expander>
+                <ScrollViewer/>
+            </Expander>
+        </StackPanel>
     </Grid>
 </Window>
