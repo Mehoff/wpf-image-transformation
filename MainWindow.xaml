@@ -21,7 +21,7 @@
                         <ListView x:Name="RadioButtonList">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <RadioButton GroupName="radioList" Content="{Binding myString}" ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
+                                    <RadioButton GroupName="radioList" Content="{Binding Name}" ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

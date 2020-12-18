@@ -20,14 +20,10 @@ namespace ImageTransformation
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-    public class SomeData 
-    {
-        public string myString { get; set; }
-    }
+    
 
     public partial class MainWindow : Window
     {
-        public ObservableCollection<SomeData> myCollection { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -36,31 +32,7 @@ namespace ImageTransformation
         }
         private void Initialize() 
         {
-            myCollection = new ObservableCollection<SomeData>
-            {
-                new SomeData
-                {
-                    myString = "Data 1"
-                },
-                new SomeData
-                {
-                    myString = "Data 2"
-                },
-                new SomeData
-                {
-                    myString = "Data 3"
-                },
-                new SomeData
-                {
-                    myString = "Data 4"
-                },
-                new SomeData
-                {
-                    myString = "Data 5"
-                }
-            };
-            RadioButtonList.ItemsSource = myCollection;
-
+            RadioButtonList.ItemsSource = ImagesLoader.LoadImages();
         }
     }
 }
