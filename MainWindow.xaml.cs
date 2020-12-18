@@ -34,5 +34,10 @@ namespace ImageTransformation
         {
             RadioButtonList.ItemsSource = ImagesLoader.LoadImages();
         }
+
+        private void RadioButtonList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MessageBox.Show(RadioButtonList.SelectedValue.ToString());
+        }
     }
 }

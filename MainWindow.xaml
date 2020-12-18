@@ -18,7 +18,7 @@
             <Expander>
                 <!--<ScrollViewer>-->
                     <StackPanel>
-                        <ListView x:Name="RadioButtonList">
+                        <ListView x:Name="RadioButtonList" SelectionChanged="RadioButtonList_SelectionChanged">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <RadioButton GroupName="radioList" Content="{Binding Name}" ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
