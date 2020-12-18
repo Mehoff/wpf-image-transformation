@@ -16,21 +16,17 @@
 
         <StackPanel Orientation="Vertical">
             <Expander>
-                <ScrollViewer>
+                <!--<ScrollViewer>-->
                     <StackPanel>
-                        <!--Name="RadioButtonList"-->
-                        <!--ItemsSource="{Binding myCollection}"-->
-
-                        <ListBox x:Name="RadioButtonList" Height="50">
-                            <ListBox.ItemTemplate>
+                        <ListView x:Name="RadioButtonList">
+                            <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <!--<TextBlock Text="{Binding}"/>-->
-                                    <RadioButton GroupName="radioList" Tag="{Binding}"/>
+                                    <RadioButton GroupName="radioList" Content="{Binding myString}" ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
                                 </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </StackPanel>
-                </ScrollViewer>
+                <!--</ScrollViewer>-->
             </Expander>
             <Expander>
                 <ScrollViewer/>

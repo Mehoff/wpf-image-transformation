@@ -19,25 +19,47 @@ namespace ImageTransformation
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+    public class SomeData 
+    {
+        public string myString { get; set; }
+    }
+
     public partial class MainWindow : Window
     {
-        public ObservableCollection<string> myCollection { get; set; }
+        public ObservableCollection<SomeData> myCollection { get; set; }
         public MainWindow()
         {
-            Initialize();
             InitializeComponent();
-            
+            Initialize();
+
         }
         private void Initialize() 
         {
-            myCollection = new ObservableCollection<string>();
-            myCollection.Add("Asd");
-            myCollection.Add("Asd");
-            myCollection.Add("Asd");
-
-
-            //RadioButtonList is NULL
-            //RadioButtonList.ItemsSource = myCollection;
+            myCollection = new ObservableCollection<SomeData>
+            {
+                new SomeData
+                {
+                    myString = "Data 1"
+                },
+                new SomeData
+                {
+                    myString = "Data 2"
+                },
+                new SomeData
+                {
+                    myString = "Data 3"
+                },
+                new SomeData
+                {
+                    myString = "Data 4"
+                },
+                new SomeData
+                {
+                    myString = "Data 5"
+                }
+            };
+            RadioButtonList.ItemsSource = myCollection;
 
         }
     }
