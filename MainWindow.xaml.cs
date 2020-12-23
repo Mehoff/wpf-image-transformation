@@ -24,6 +24,7 @@ namespace ImageTransformation
 
     public partial class MainWindow : Window
     {
+        private ObservableCollection<TransformableImage> images;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,12 +33,34 @@ namespace ImageTransformation
         }
         private void Initialize() 
         {
-            RadioButtonList.ItemsSource = ImagesLoader.LoadImages();
+            UpdateImagesList();
+        }
+        private void UpdateImagesList() 
+        {
+            images = ImagesLoader.LoadImages();
+            RadioButtonList.ItemsSource = images;
         }
 
-        private void RadioButtonList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        // RadioButtonList.Items - Коллекция TransformableImages 
+        // Задача, найти коллекцию контролов RadioButton, или индекс нажатого радиобаттона
+        // Пытался найти способ связать коллекцию радиобаттонов и коллекцию моих объектов, но не смог
+        // Найти все радиобатоны по групнейму
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(RadioButtonList.SelectedValue.ToString());
+            RadioButton button = (RadioButton)sender;
+            var resourceName = button.Tag.ToString();
+
+            foreach(var item in RadioButtonList.Items) 
+            {
+                var t_img = (TransformableImage)item;
+                if (string.Equals(resourceName, t_img.Name)) 
+                {
+                    // Load Image On Form
+                    ImageSpace.Source = t_img.Image;
+                    break;
+                }
+            }
         }
     }
 }

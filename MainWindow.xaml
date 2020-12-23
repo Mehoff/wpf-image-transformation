@@ -17,20 +17,21 @@
         <StackPanel Orientation="Vertical">
             <Expander>
                 <!--<ScrollViewer>-->
-                    <StackPanel>
-                        <ListView x:Name="RadioButtonList" SelectionChanged="RadioButtonList_SelectionChanged">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <RadioButton GroupName="radioList" Content="{Binding Name}" ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </StackPanel>
+                <StackPanel>
+                    <ListView x:Name="RadioButtonList">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <RadioButton GroupName="radioList" Content="{Binding Name}" Tag="{Binding Name}" ScrollViewer.VerticalScrollBarVisibility="Hidden" Checked="RadioButton_Checked"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
                 <!--</ScrollViewer>-->
             </Expander>
             <Expander>
                 <ScrollViewer/>
             </Expander>
         </StackPanel>
+        <Image x:Name="ImageSpace" Grid.Column="1"/>
     </Grid>
 </Window>
