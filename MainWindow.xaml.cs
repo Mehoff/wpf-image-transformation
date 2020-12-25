@@ -38,29 +38,61 @@ namespace ImageTransformation
         private void UpdateImagesList() 
         {
             images = ImagesLoader.LoadImages();
+           // ListView
             RadioButtonList.ItemsSource = images;
         }
 
         // RadioButtonList.Items - Коллекция TransformableImages 
         // Задача, найти коллекцию контролов RadioButton, или индекс нажатого радиобаттона
-        // Пытался найти способ связать коллекцию радиобаттонов и коллекцию моих объектов, но не смог
-        // Найти все радиобатоны по групнейму
+        // Пытался найти способ связать коллекцию радиобаттонов и коллекцию моих объектов , но не смог
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton button = (RadioButton)sender;
             var resourceName = button.Tag.ToString();
-
-            foreach(var item in RadioButtonList.Items) 
+            
+            foreach (var item in RadioButtonList.Items)
             {
                 var t_img = (TransformableImage)item;
-                if (string.Equals(resourceName, t_img.Name)) 
+
+                if (string.Equals(resourceName, t_img.Name))
                 {
-                    // Load Image On Form
                     ImageSpace.Source = t_img.Image;
                     break;
                 }
             }
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            var slider = (Slider)sender;
+            MakeSliderAction(slider);
+        }
+
+        private void MakeSliderAction(Slider slider) 
+        {
+            switch (slider.Name) 
+            {
+                case "sWidth": ChangeWidth(slider);
+                    break;
+                case "sHeight": 
+                    break;
+                case "sMoveX":
+                    break;
+                case "sMoveY":
+                    break;
+                case "sTiltX":
+                    break;
+                case "sTiltY":
+                    break;
+                case "sClockwise":
+                    break;
+            }
+        }
+
+        private void ChangeWidth(Slider slider) 
+        {
+
         }
     }
 }
