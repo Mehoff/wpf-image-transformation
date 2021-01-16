@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ImageTransformation
 {
@@ -22,14 +13,38 @@ namespace ImageTransformation
     /// 
     
 
+    public struct ImageInfo
+    {
+        public TransformGroup transformGroup;
+        public SkewTransform skewTransform;
+        public TranslateTransform translateTransform;
+        public RotateTransform rotateTransform;
+
+        public double Width { get; set; }
+        public double Height { get; set; }
+
+        public double SkewX { get; set; }
+        public double SkewY { get; set; }
+
+        public double cX { get; set; }
+        public double cY { get; set; }
+
+        public double clockwise { get; set; }
+        public void SetValues(Image image) 
+        {
+            Width = image.Source.Width;
+            Height = image.Source.Height;
+        }
+    }
     public partial class MainWindow : Window
     {
         private ObservableCollection<TransformableImage> images;
+        private ImageInfo currentImageInfo;
         public MainWindow()
         {
             InitializeComponent();
+            WindowState = WindowState.Maximized;
             Initialize();
-
         }
         private void Initialize() 
         {
@@ -37,14 +52,19 @@ namespace ImageTransformation
         }
         private void UpdateImagesList() 
         {
-            images = ImagesLoader.LoadImages();
-           // ListView
-            RadioButtonList.ItemsSource = images;
-        }
+            currentImageInfo = new ImageInfo();
+            
+            currentImageInfo.transformGroup = new TransformGroup();
+            currentImageInfo.skewTransform = new SkewTransform();
+            currentImageInfo.translateTransform = new TranslateTransform();
+            currentImageInfo.rotateTransform = new RotateTransform();
+            currentImageInfo.transformGroup.Children.Add(currentImageInfo.skewTransform);
+            currentImageInfo.transformGroup.Children.Add(currentImageInfo.translateTransform);
+            currentImageInfo.transformGroup.Children.Add(currentImageInfo.rotateTransform);
 
-        // RadioButtonList.Items - Коллекция TransformableImages 
-        // Задача, найти коллекцию контролов RadioButton, или индекс нажатого радиобаттона
-        // Пытался найти способ связать коллекцию радиобаттонов и коллекцию моих объектов , но не смог
+            images = ImagesLoader.LoadImages();
+            RadioButtonList.ItemsSource = images; 
+        }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -58,6 +78,7 @@ namespace ImageTransformation
                 if (string.Equals(resourceName, t_img.Name))
                 {
                     ImageSpace.Source = t_img.Image;
+                    currentImageInfo.SetValues(ImageSpace);
                     break;
                 }
             }
@@ -71,28 +92,83 @@ namespace ImageTransformation
 
         private void MakeSliderAction(Slider slider) 
         {
+            if (ImageSpace == null)
+                return;
+
             switch (slider.Name) 
             {
-                case "sWidth": ChangeWidth(slider);
+                case "sWidth":
+                    ChangeWidth(slider);
                     break;
-                case "sHeight": 
+                case "sHeight":
+                    ChangeHeight(slider);
                     break;
                 case "sMoveX":
+                    MoveX(slider);
                     break;
                 case "sMoveY":
+                    MoveY(slider);
                     break;
                 case "sTiltX":
+                    TiltX(slider);
                     break;
                 case "sTiltY":
+                    TiltY(slider);
                     break;
                 case "sClockwise":
+                    Clockwise(slider);
                     break;
             }
         }
 
         private void ChangeWidth(Slider slider) 
         {
+            slider.Maximum = currentImageInfo.Width;
+            ImageSpace.Width = slider.Value;
+        }
+
+        private void ChangeHeight(Slider slider)
+        {
+            slider.Maximum = currentImageInfo.Height;
+            ImageSpace.Height = slider.Value;
+        }
+
+        private void MoveX(Slider slider) 
+        {
+            currentImageInfo.cX = slider.Value;
+            currentImageInfo.translateTransform.X = currentImageInfo.cX;
+            ImageSpace.RenderTransform = currentImageInfo.transformGroup;
+            
+        }
+        private void MoveY(Slider slider)
+        {
+            currentImageInfo.cY = slider.Value;
+            currentImageInfo.translateTransform.Y = currentImageInfo.cY;
+            ImageSpace.RenderTransform = currentImageInfo.transformGroup;
 
         }
+        private void TiltX(Slider slider) 
+        {
+            currentImageInfo.SkewX = slider.Value;
+            currentImageInfo.skewTransform.AngleX = currentImageInfo.SkewX;
+            ImageSpace.RenderTransform = currentImageInfo.transformGroup;
+        }
+        private void TiltY(Slider slider)
+        {
+            currentImageInfo.SkewY = slider.Value;
+            currentImageInfo.skewTransform.AngleY = currentImageInfo.SkewY;
+            ImageSpace.RenderTransform = currentImageInfo.transformGroup;
+        }
+        private void Clockwise(Slider slider) 
+        {
+            currentImageInfo.clockwise = slider.Value;
+
+            currentImageInfo.rotateTransform.CenterX = ImageSpace.ActualWidth / 2;
+            currentImageInfo.rotateTransform.CenterY = ImageSpace.ActualHeight / 2;
+
+            currentImageInfo.rotateTransform.Angle = currentImageInfo.clockwise;
+            ImageSpace.RenderTransform = currentImageInfo.transformGroup;
+        }
+
     }
 }
